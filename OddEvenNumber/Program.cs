@@ -3,26 +3,22 @@
 printNumbers(filterNumbers(numbers), "Even Numbers");
 printNumbers(filterNumbers(numbers, type : "Odds"), "Odd Numbers");
 
-static bool checkNumberType(int number)
-{
-    return int.IsEvenInteger(number);
-}
+//check number type (even | odd)
+static bool checkNumberType(int number) => int.IsEvenInteger(number);
 
+//filter numbers
 static IEnumerable<int> filterNumbers(IEnumerable<int> numbers, string type = "Evens")
 {
-    switch (type.ToLower().Trim())
-	{
-		case "evens":
-            return numbers.Where(number => checkNumberType(number));
-        case "odds":
-            return numbers.Where(number => !checkNumberType(number));
-        default:
-            return Enumerable.Empty<int>();
-	}
+    return type.ToLower().Trim() switch
+    {
+        "evens" => numbers.Where(number => checkNumberType(number)),
+        "odds" => numbers.Where(number => !checkNumberType(number)),
+        _ => Enumerable.Empty<int>(),
+    };
 }
-
+//print numbers
 static void printNumbers(IEnumerable<int> numbers, string title)
 {
-    Console.Write($"{title}: ");
-    Console.Write($"[ {string.Join(" ", numbers)} ]\n");
+    Console.Write($"{title}:\t ");
+    Console.Write("[ {0} ]\n", string.Join(", ", numbers));
 }
